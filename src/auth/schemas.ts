@@ -5,13 +5,15 @@ export const email = z
   .email()
   .transform((str) => str.toLowerCase().trim())
 
+export const MIN_PASSWORD_LENGTH = 4
 export const password = z
   .string()
-  .min(10)
+  .min(MIN_PASSWORD_LENGTH)
   .max(100)
   .transform((str) => str.trim())
 
 export const Signup = z.object({
+  name: z.string().min(2).max(100),
   email,
   password,
 })

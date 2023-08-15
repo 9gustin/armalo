@@ -15,7 +15,7 @@ const ResetPasswordPage: BlitzPage = () => {
   const [resetPasswordMutation, { isSuccess }] = useMutation(resetPassword)
 
   return (
-    <div>
+    <Layout title="Reset Your Password">
       <h1>Set a New Password</h1>
 
       {isSuccess ? (
@@ -59,11 +59,10 @@ const ResetPasswordPage: BlitzPage = () => {
           />
         </Form>
       )}
-    </div>
+    </Layout>
   )
 }
 
 ResetPasswordPage.redirectAuthenticatedTo = "/"
-ResetPasswordPage.getLayout = (page) => <Layout title="Reset Your Password">{page}</Layout>
 
 export default ResetPasswordPage
