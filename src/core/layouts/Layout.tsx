@@ -1,6 +1,7 @@
 import Head from "next/head"
 import React, { Suspense } from "react"
 import { BlitzLayout } from "@blitzjs/next"
+import { Group } from "@mantine/core"
 
 const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
   title,
@@ -13,7 +14,17 @@ const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Suspense fallback="Loading...">{children}</Suspense>
+      <Group
+        dir="column"
+        align="center"
+        p={16}
+        sx={{
+          gap: 16,
+          height: "100%",
+        }}
+      >
+        <Suspense fallback="Loading...">{children}</Suspense>
+      </Group>
     </>
   )
 }

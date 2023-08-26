@@ -31,10 +31,10 @@ export default function AuthForm() {
       password: "",
     },
     validate: {
-      email: (val) => (/^\S+@\S+$/.test(val) ? null : "Invalid email"),
+      email: (val) => (/^\S+@\S+$/.test(val) ? null : "Ingrese un correo válido"),
       password: (val) =>
         val.length < MIN_PASSWORD_LENGTH
-          ? `Password should include at least ${MIN_PASSWORD_LENGTH} characters`
+          ? `La contraseña debe tener al menos ${MIN_PASSWORD_LENGTH} caracteres`
           : null,
     },
   })
@@ -52,11 +52,11 @@ export default function AuthForm() {
 
   return (
     <Container size={420} my={40}>
-      <Title align="center">Welcome!</Title>
+      <Title align="center">Bienvenido!</Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
-        {isRegister ? "Already have an account?" : "Do not have an account yet?"}{" "}
+        {isRegister ? "Ya tenes cuenta?" : "No tenes cuenta?"}{" "}
         <Anchor size="sm" component="button" onClick={() => toggle()}>
-          {isRegister ? "Log in" : "Create account"}
+          {isRegister ? "Ingresá" : "Creá una cuenta"}
         </Anchor>
       </Text>
 
@@ -73,15 +73,15 @@ export default function AuthForm() {
           <TextInput
             required
             withAsterisk
-            label="Name"
+            label="Nombre"
             radius="md"
             {...form.getInputProps("name")}
           />
         )}
 
-        <TextInput label="Email" required withAsterisk mt="md" {...form.getInputProps("email")} />
+        <TextInput label="Mail" required withAsterisk mt="md" {...form.getInputProps("email")} />
         <PasswordInput
-          label="Password"
+          label="Contraseña"
           withAsterisk
           required
           mt="md"
@@ -89,11 +89,11 @@ export default function AuthForm() {
         />
         <Group position="apart" mt="lg">
           <Anchor component={Link} size="sm" href={Routes.ForgotPasswordPage()}>
-            Forgot password?
+            Olvidaste tu contraseña
           </Anchor>
         </Group>
         <Button fullWidth mt="xl" type="submit">
-          Sign in
+          Ingresar
         </Button>
       </Paper>
     </Container>

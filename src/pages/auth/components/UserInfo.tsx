@@ -2,6 +2,7 @@ import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import logout from "src/auth/mutations/logout"
 import { useMutation } from "@blitzjs/rpc"
 import { Button } from "@mantine/core"
+import { DndList } from "./DD"
 
 export const UserInfo = () => {
   const currentUser = useCurrentUser()
@@ -11,20 +12,5 @@ export const UserInfo = () => {
     return null
   }
 
-  return (
-    <>
-      <Button
-        onClick={async () => {
-          await logoutMutation()
-        }}
-      >
-        Logout
-      </Button>
-      <div>
-        User id: <code>{currentUser.id}</code>
-        <br />
-        User role: <code>{currentUser.role}</code>
-      </div>
-    </>
-  )
+  return <DndList />
 }

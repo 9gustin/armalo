@@ -3,6 +3,7 @@ import { MantineProvider } from "@mantine/core"
 import { AuthenticationError, AuthorizationError } from "blitz"
 import React, { Suspense } from "react"
 import { withBlitz } from "src/blitz-client"
+import "../styles/globals.css"
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
@@ -31,8 +32,46 @@ function MyApp({ Component, pageProps }: AppProps) {
         withGlobalStyles
         withNormalizeCSS
         theme={{
-          /** Put your mantine theme override here */
-          colorScheme: "light",
+          colorScheme: "dark",
+          primaryColor: "green",
+          colors: {
+            green: [
+              "#A5CC6B",
+              "#679436",
+              "#679436",
+              "#679436",
+              "#679436",
+              "#679436",
+              "#679436",
+              "#679436",
+              "#679436",
+              "#679436",
+            ],
+          },
+          components: {
+            TextInput: {
+              defaultProps: {
+                size: "lg",
+              },
+            },
+            Text: {
+              defaultProps: {
+                size: "lg",
+              },
+            },
+            Textarea: {
+              defaultProps: {
+                size: "lg",
+              },
+            },
+            Button: {
+              defaultProps: {
+                size: "lg",
+                radius: 10,
+                fullWidth: true,
+              },
+            },
+          },
         }}
       >
         <Suspense fallback="Loading...">
