@@ -3,11 +3,9 @@ import { BlitzPage, Routes } from "@blitzjs/next"
 import {
   Button,
   Container,
-  Drawer,
   Flex,
   Group,
   Modal,
-  ScrollArea,
   Text,
   TextInput,
   useMantineTheme,
@@ -28,6 +26,7 @@ import { useClickOutside, useDisclosure } from "@mantine/hooks"
 import { useRouter } from "next/router"
 import { useMemo, useRef } from "react"
 import { toPng } from "html-to-image"
+import { d } from "vitest/dist/index-9f5bc072"
 
 export const TEAMS = {
   A: {
@@ -62,6 +61,7 @@ const Builder: BlitzPage = () => {
   }, [names])
 
   const [opened, { close, open }] = useDisclosure(false)
+  const [dragMode, { close: endDragMode, open: startDragMode }] = useDisclosure(false)
   const [modalRestart, { close: closeRestart, open: openRestart }] = useDisclosure(false)
   const [isDeleteMode, { toggle: toggleDeleteMode }] = useDisclosure(false)
   const hasPlayers = wTeam && wTeam.length > 0
@@ -251,6 +251,7 @@ const Builder: BlitzPage = () => {
               <Group
                 sx={{
                   width: "fit-content",
+                  position: "fixed",
                 }}
               >
                 <IconShirt color={TEAMS[teamKey!].color} />
@@ -322,7 +323,7 @@ const Builder: BlitzPage = () => {
             width: "50%",
             padding: 16,
             position: "fixed",
-            backgroundColor: black,
+            backgroundColor: dragMode ? "transparent" : black,
           }}
         >
           <Flex ref={drawerRef} direction="column" h="100%" gap="md" justify="flex-end">
@@ -330,63 +331,71 @@ const Builder: BlitzPage = () => {
               withoutTeam.length > 0 &&
               withoutTeam.map(({ name, pos }) => (
                 <Draggable
+                  defaultClassName="element"
+                  defaultClassNameDragging="dragging"
                   defaultPosition={pos || { x: 0, y: 0 }}
                   key={name}
-                  onStart={() => toggleDeleteMode()}
-                  onStop={(e, data) => handleStopDrag(e, name, data, true)}
+                  onStart={() => {
+                    toggleDeleteMode()
+                    startDragMode()
+                  }}
+                  onStop={(e, data) => {
+                    handleStopDrag(e, name, data, true)
+                    endDragMode()
+                  }}
                 >
-                  <Group
+                  <Text
+                    size="md"
+                    c={white}
                     sx={{
-                      width: "fit-content",
+                      fontWeight: 600,
+                      fontSize: "1.3rem",
                     }}
+                    transform="capitalize"
                   >
-                    <Text
-                      size="md"
-                      c={white}
-                      sx={{
-                        fontWeight: 600,
-                        fontSize: "1.3rem",
-                      }}
-                      transform="capitalize"
-                    >
-                      {name}
-                    </Text>
-                  </Group>
+                    {name}
+                  </Text>
                 </Draggable>
               ))}
-            {isCreateMode ? (
-              <form onSubmit={form.onSubmit(handleCreate)}>
-                <Flex gap="xs">
-                  <TextInput
-                    size="md"
-                    autoFocus
-                    wrapperProps={{
-                      sx: {
-                        flex: 1,
-                        flexGrow: 1,
-                      },
-                    }}
-                    {...form.getInputProps("name")}
-                  />
-                  <Button
-                    py={2}
-                    px={4}
-                    sx={{
-                      height: "auto",
-                    }}
-                    type="submit"
-                    fullWidth={false}
-                    variant="white"
-                  >
-                    <IconCheck />
-                  </Button>
-                </Flex>
-              </form>
-            ) : (
-              <Button px={16} onClick={() => toggleCreateMode()} fullWidth={false} variant="white">
-                <IconUserPlus />
-              </Button>
-            )}
+            <div
+              style={{
+                visibility: dragMode ? "hidden" : "visible",
+              }}
+            >
+              {isCreateMode ? (
+                <form onSubmit={form.onSubmit(handleCreate)}>
+                  <Flex gap="xs">
+                    <TextInput
+                      size="md"
+                      autoFocus
+                      wrapperProps={{
+                        sx: {
+                          flex: 1,
+                          flexGrow: 1,
+                        },
+                      }}
+                      {...form.getInputProps("name")}
+                    />
+                    <Button
+                      py={2}
+                      px={4}
+                      sx={{
+                        height: "auto",
+                      }}
+                      type="submit"
+                      fullWidth={false}
+                      variant="white"
+                    >
+                      <IconCheck />
+                    </Button>
+                  </Flex>
+                </form>
+              ) : (
+                <Button px={16} onClick={() => toggleCreateMode()} variant="white">
+                  <IconUserPlus />
+                </Button>
+              )}
+            </div>
           </Flex>
         </div>
       )}
@@ -440,6 +449,14 @@ const Builder: BlitzPage = () => {
           </Button>
         </Group>
       </Modal>
+      <style global jsx>{`
+        div.element {
+          visibility: ${dragMode ? "hidden" : "visible"};
+        }
+        div.dragging {
+          visibility: visible;
+        }
+      `}</style>
     </>
   )
 }
