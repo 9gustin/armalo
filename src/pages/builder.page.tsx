@@ -68,8 +68,11 @@ const Builder: BlitzPage = () => {
 
   const [playersDrawer, { toggle: togglePlayersDrawer, close: closePlayersDrawer }] =
     useDisclosure(false)
-  const [isCreateMode, { toggle: toggleCreateMode }] = useDisclosure(false)
-  const drawerRef = useClickOutside(closePlayersDrawer)
+  const [isCreateMode, { toggle: toggleCreateMode, close: closeCreateMode }] = useDisclosure(false)
+  const drawerRef = useClickOutside(() => {
+    closePlayersDrawer()
+    closeCreateMode()
+  })
 
   const dropZone = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
