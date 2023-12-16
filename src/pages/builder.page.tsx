@@ -16,6 +16,7 @@ import {
   IconBrandWhatsapp,
   IconCheck,
   IconDownload,
+  IconRotate,
   IconShirt,
   IconTrash,
   IconUserPlus,
@@ -26,7 +27,6 @@ import { useClickOutside, useDisclosure } from "@mantine/hooks"
 import { useRouter } from "next/router"
 import { useMemo, useRef } from "react"
 import { toPng } from "html-to-image"
-import { d } from "vitest/dist/index-9f5bc072"
 
 export const TEAMS = {
   A: {
@@ -288,32 +288,33 @@ const Builder: BlitzPage = () => {
         </Group>
       ) : (
         <Group
-          position="apart"
+          position={hasPlayers ? "center" : "apart"}
           bg={primaryColor}
           sx={{
             gap: 16,
             padding: 16,
             height: "10%",
+            flexWrap: "nowrap",
           }}
         >
           <Button px={16} onClick={open} fullWidth={false} variant="white">
-            <IconArrowLeft />
+            <IconArrowLeft size={24} />
           </Button>
           {hasPlayers && (
             <>
               <Button px={16} onClick={handleDownload} fullWidth={false} variant="white">
-                <IconDownload />
+                <IconDownload size={24} />
               </Button>
               <Button px={16} onClick={handleWPP} fullWidth={false} variant="white">
-                <IconBrandWhatsapp />
+                <IconBrandWhatsapp size={24} />
               </Button>
               <Button px={16} onClick={openRestart} fullWidth={false} variant="white">
-                <IconTrash />
+                <IconRotate size={24} />
               </Button>
             </>
           )}
           <Button px={16} onClick={() => togglePlayersDrawer()} fullWidth={false} variant="white">
-            <IconUsersGroup />
+            <IconUsersGroup size={24} />
           </Button>
         </Group>
       )}
