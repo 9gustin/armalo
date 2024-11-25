@@ -21,6 +21,7 @@ const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
         sx={{
           gap: 16,
           height: "100%",
+          overflowY: "auto",
         }}
       >
         <Suspense fallback="Loading...">{children}</Suspense>
